@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hot Wheels Collection by sanfenu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+<style>
+
+  /* ============================================================
+     1. VARIABLES DE COLOR Y TIPOGRAFÍA
+     Cambia estos valores si quieres retocar la paleta de colores
+     ============================================================ */
+  :root{
+    --rojo: #E63946;
+    --azul: #0077C8;
+    --amarillo: #FFC72C;
+    --naranja: #F4A300;
+    --dorado: #D4AF37;
+    --dorado-claro: #F3E3A8;
+    --carbon: #1B1B2F;
+    --carbon-suave: #2B2B45;
+    --blanco: #FFFFFF;
+    --gris-claro: #F6F4EE;
+    --gris-medio: #D9D5C7;
+    --fuente-titular: 'Bungee', cursive;
+    --fuente-texto: 'Poppins', sans-serif;
+    --radio: 16px;
+    --sombra: 0 10px 25px rgba(27,27,47,.25);
+
+    /* estas son las que cambian entre modo claro y modo oscuro */
+    --superficie-pagina: var(--gris-claro);
+    --superficie-tarjeta: var(--blanco);
+    --superficie-hover: #fff8e6;
+    --texto-principal: var(--carbon);
+    --texto-secundario: var(--carbon-suave);
+    --borde-suave: var(--gris-medio);
+    --chip-fondo: var(--gris-claro);
+  }
+
+  body.modo-oscuro{
+    --superficie-pagina: #14141f;
+    --superficie-tarjeta: #20212f;
+    --superficie-hover: #2b2c40;
+    --texto-principal: #f3f1e8;
+    --texto-secundario: #b6b3c4;
+    --borde-suave: #383a52;
+    --chip-fondo: #2a2b3d;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    font-family:var(--fuente-texto);
+    background:var(--superficie-pagina);
+    color:var(--texto-principal);
+    transition:background .3s ease, color .3s ease;
+  }
+  img{ max-width:100%; display:block; }
+  button{ font-family:inherit; cursor:pointer; }
+  a{ color:inherit; }
+
+  :focus-visible{
+    outline:3px solid var(--dorado);
+    outline-offset:2px;
+  }
+
+  /* franja de bandera de cuadros, motivo decorativo reutilizado */
+  .bandera-cuadros{
+    height:14px;
+    background-image:
+      repeating-linear-gradient(45deg, var(--carbon) 0 10px, var(--blanco) 10px 20px);
+    background-size:20px 20px;
+  }
+
+  /* ============================================================
+     2. ENCABEZADO / LOGOTIPO (se repite en todas las vistas)
+     ============================================================ */
+  .cabecera{
+    background:linear-gradient(135deg, var(--carbon) 0%, var(--carbon-suave) 100%);
+    padding:18px 20px 22px;
+    text-align:center;
+    position:relative;
+  }
+  .logo{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:2px;
+    line-height:1;
+  }
+  .logo .l1{
+    font-family:var(--fuente-titular);
+    font-size:clamp(1.8rem, 6vw, 3.2rem);
+    background:linear-gradient(180deg, #FFF6D8 0%, #FFD700 45%, #C9971A 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    -webkit-text-stroke:1.5px var(--carbon);
+    text-shadow:0 3px 0 rgba(0,0,0,.35), 0 0 22px rgba(255,215,0,.55);
+    letter-spacing:2px;
+  }
+  .logo .l2{
+    font-family:var(--fuente-titular);
+    font-size:clamp(1rem, 3.4vw, 1.7rem);
+    letter-spacing:6px;
+    background:linear-gradient(90deg, var(--dorado-claro), var(--dorado), var(--dorado-claro));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    margin-top:4px;
+  }
+  .logo .firma{
+    font-family:var(--fuente-texto);
+    font-style:italic;
+    font-weight:500;
+    color:var(--gris-claro);
+    font-size:.95rem;
+    margin-top:6px;
+    opacity:.9;
+  }
+  .cabecera.pequena{ padding:14px 16px; }
+  .cabecera.pequena .l1{ font-size:clamp(1.3rem,5vw,1.9rem); -webkit-text-stroke:1.5px var(--carbon); text-shadow:2px 2px 0 var(--rojo);}
+  .cabecera.pequena .l2{ font-size:clamp(.7rem,2.6vw,1rem); letter-spacing:4px; }
+  .cabecera.pequena .firma{ font-size:.75rem; }
+
+  /* ============================================================
+     3. VISTA HOME: rueda de coches girando + botón ENTER
+     ============================================================ */
+  #vista-home{
+    min-height:100vh;
+    background:radial-gradient(circle at 50% 25%, #4DA3E8 0%, #1D7FE0 55%, #0F5DA8 100%);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:40px 20px;
+    color:var(--blanco);
+  }
+  #vista-home .logo .l1{ font-size:clamp(2.4rem, 9vw, 4.6rem); }
+  #vista-home .logo .l2{ font-size:clamp(1.1rem, 4vw, 2rem); }
+  #vista-home .logo .firma{ font-size:1.1rem; margin-bottom:10px; }
+
+  .centro-rueda{
+    position:relative;
+    width:110px; height:110px;
+    margin:8px auto 0;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, var(--dorado-claro), var(--dorado) 70%, #9c7a1f 100%);
+    border:4px solid var(--carbon);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 0 0 6px rgba(212,175,55,.25);
+  }
+  .btn-enter{
+    background:var(--rojo);
+    color:var(--blanco);
+    border:3px solid var(--dorado);
+    font-family:var(--fuente-titular);
+    font-size:1.15rem;
+    letter-spacing:2px;
+    width:100%; height:100%;
+    border-radius:50%;
+    animation:pulso 2s ease-in-out infinite;
+  }
+  .btn-enter:hover{ background:#c62533; }
+
+  /* escenario horizontal: los coches van saliendo de uno en uno y giran en 3D */
+  .escenario-3d{
+    perspective:900px;
+    overflow:hidden;
+    width:min(240px, 70vw);
+    height:150px;
+    margin:26px auto 6px;
+    position:relative;
+  }
+  .escenario-3d::after{
+    content:"";
+    position:absolute; left:0; right:0; bottom:14px; height:10px;
+    background:radial-gradient(ellipse at center, rgba(212,175,55,.35), transparent 70%);
+  }
+  .pista-3d{
+    display:flex;
+    height:100%;
+    transition:transform .8s cubic-bezier(.4,0,.2,1);
+    will-change:transform;
+  }
+  .item-3d{
+    flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .icono-3d{
+    font-size:4.6rem;
+    display:inline-block;
+    transform-style:preserve-3d;
+    filter:drop-shadow(0 10px 8px rgba(0,0,0,.45));
+  }
+  .icono-3d.girando{
+    animation:giro3d 2.5s ease-in-out;
+  }
+  .icono-3d.foto{
+    width:150px; height:150px;
+    object-fit:contain;
+    filter:drop-shadow(0 10px 10px rgba(0,0,0,.5));
+  }
+
+  @keyframes giro3d{
+    0%{ transform:scale(.72); opacity:.3; }
+    55%{ transform:scale(1.1); opacity:1; }
+    100%{ transform:scale(1); opacity:1; }
+  }
+  @keyframes pulso{
+    0%,100%{ transform:scale(1); }
+    50%{ transform:scale(1.06); }
+  }
+
+  .home-sub{
+    max-width:480px;
+    color:var(--blanco);
+    font-size:.95rem;
+    opacity:.95;
+    margin-top:14px;
+    text-shadow:0 1px 3px rgba(0,0,0,.35);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .btn-enter, .icono-3d.girando, .pista-3d{ animation:none; transition:none; }
+  }
+
+  /* ============================================================
+     4. VISTA LISTADO
+     ============================================================ */
+  #vista-listado{ display:none; }
+  .barra-listado{
+    background:var(--superficie-tarjeta);
+    padding:16px 20px;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:12px;
+    border-bottom:3px solid var(--dorado);
+    position:sticky; top:0; z-index:5;
+  }
+  .btn-volver-home{
+    background:none; border:2px solid var(--texto-principal); color:var(--texto-principal);
+    border-radius:999px; padding:8px 16px; font-weight:600; font-size:.85rem;
+    display:flex; align-items:center; gap:6px;
+  }
+  .btn-volver-home:hover{ background:var(--texto-principal); color:var(--superficie-tarjeta); }
+  .btn-icono-redondo{
+    background:var(--chip-fondo); border:2px solid var(--borde-suave); color:var(--texto-principal);
+    width:38px; height:38px; border-radius:50%; font-size:1.1rem;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .btn-icono-redondo:hover{ border-color:var(--dorado); }
+  .btn-estadisticas{
+    background:none; border:2px solid var(--dorado); color:var(--texto-principal);
+    border-radius:999px; padding:8px 14px; font-weight:600; font-size:.82rem;
+    display:flex; align-items:center; gap:6px;
+  }
+  .btn-estadisticas:hover{ background:var(--dorado); color:var(--carbon); }
+  .buscador{
+    flex:1;
+    min-width:220px;
+    display:flex;
+    align-items:center;
+    background:var(--chip-fondo);
+    border:2px solid var(--borde-suave);
+    border-radius:999px;
+    padding:6px 16px;
+    gap:8px;
+  }
+  .buscador:focus-within{ border-color:var(--dorado); }
+  .buscador input{
+    border:none; background:none; outline:none;
+    font-family:var(--fuente-texto); font-size:1rem;
+    flex:1; padding:6px 0; color:var(--texto-principal);
+  }
+  .contador{
+    font-size:.85rem; color:var(--texto-secundario); font-weight:600;
+    white-space:nowrap;
+  }
+
+  .fila-filtros{
+    display:flex; flex-wrap:wrap; align-items:center; gap:10px;
+    padding:12px 20px; background:var(--superficie-tarjeta);
+    border-bottom:1px solid var(--borde-suave);
+  }
+  .fila-filtros label{
+    font-size:.75rem; font-weight:700; color:var(--texto-secundario);
+    display:flex; flex-direction:column; gap:4px;
+  }
+  .fila-filtros select{
+    font-family:var(--fuente-texto); font-size:.9rem;
+    padding:8px 10px; border-radius:10px;
+    border:2px solid var(--borde-suave); background:var(--chip-fondo);
+    color:var(--texto-principal); min-width:140px;
+  }
+  .fila-filtros select:focus-visible{ border-color:var(--dorado); }
+  .check-favoritos{
+    flex-direction:row !important;
+    align-items:center; gap:6px !important;
+    font-size:.85rem !important; color:var(--texto-principal) !important;
+    cursor:pointer; padding-top:14px;
+  }
+  .check-favoritos input{ width:16px; height:16px; accent-color:var(--dorado); cursor:pointer; }
+  .btn-limpiar-filtros{
+    background:none; border:none; color:var(--rojo); font-weight:600;
+    font-size:.85rem; align-self:flex-end; padding:8px 4px;
+  }
+  .btn-limpiar-filtros:hover{ text-decoration:underline; }
+
+  .panel-estadisticas{
+    display:none;
+    background:var(--superficie-tarjeta);
+    padding:16px 20px 20px;
+    border-bottom:1px solid var(--borde-suave);
+    gap:26px; flex-wrap:wrap;
+  }
+  .stat-grupo h4{
+    margin:0 0 8px; font-size:.75rem; text-transform:uppercase;
+    letter-spacing:1px; color:var(--dorado); font-weight:700;
+  }
+  .stat-lista{ display:flex; flex-wrap:wrap; gap:6px; max-width:520px; }
+  .chip-stat{
+    background:var(--chip-fondo); border:1px solid var(--borde-suave);
+    border-radius:999px; padding:4px 12px; font-size:.78rem; color:var(--texto-secundario);
+  }
+  .chip-stat b{ color:var(--texto-principal); margin-left:5px; }
+
+  .abecedario{
+    display:flex; flex-wrap:wrap; gap:6px;
+    padding:12px 20px; background:var(--chip-fondo);
+    border-bottom:1px solid var(--borde-suave);
+  }
+  .abecedario button{
+    background:var(--superficie-tarjeta); border:1.5px solid var(--borde-suave); color:var(--texto-principal);
+    width:30px; height:30px; border-radius:8px; font-weight:700; font-size:.8rem;
+  }
+  .abecedario button:hover{ border-color:var(--dorado); color:var(--dorado); }
+
+  .controles-paginacion{
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:center;
+    gap:6px; padding:20px 16px 50px;
+  }
+  .btn-pagina{
+    min-width:36px; height:36px; padding:0 8px;
+    border-radius:8px; border:2px solid var(--borde-suave);
+    background:var(--superficie-tarjeta); color:var(--texto-principal);
+    font-weight:600; font-size:.9rem;
+  }
+  .btn-pagina:hover:not(:disabled){ border-color:var(--dorado); color:var(--dorado); }
+  .btn-pagina.activa{ background:var(--dorado); border-color:var(--dorado); color:var(--carbon); }
+  .btn-pagina:disabled{ opacity:.35; }
+  .puntos-pagina{ color:var(--texto-secundario); padding:0 4px; }
+
+  .btn-arriba{
+    position:fixed; right:22px; bottom:22px; z-index:20;
+    width:50px; height:50px; border-radius:50%;
+    background:var(--dorado); color:var(--carbon);
+    border:3px solid var(--carbon); font-size:1.3rem;
+    box-shadow:var(--sombra);
+    opacity:0; pointer-events:none; transform:translateY(12px);
+    transition:opacity .25s ease, transform .25s ease;
+  }
+  .btn-arriba.visible{ opacity:1; pointer-events:auto; transform:translateY(0); }
+  .btn-arriba:hover{ background:var(--dorado-claro); }
+
+  .contenido-listado{ max-width:900px; margin:0 auto; padding:10px 16px 60px; }
+
+  .letra-titulo{
+    font-family:var(--fuente-titular);
+    color:var(--blanco);
+    background:var(--azul);
+    display:inline-block;
+    padding:4px 16px;
+    border-radius:8px 8px 0 0;
+    font-size:1.1rem;
+    margin-top:26px;
+  }
+  .grupo-letra{ border-bottom:2px solid var(--borde-suave); }
+
+  .fila-coche{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    width:100%;
+    background:var(--superficie-tarjeta);
+    border-bottom:1px solid var(--borde-suave);
+    padding:8px 8px 8px 12px;
+    border-radius:10px;
+    margin:6px 0;
+  }
+  .fila-coche:hover{ background:var(--superficie-hover); box-shadow:0 2px 8px rgba(0,0,0,.08); }
+  .fila-click{
+    display:flex; align-items:center; gap:14px; flex:1; min-width:0;
+    background:none; border:none; text-align:left; padding:2px 0; color:inherit; font:inherit;
+  }
+  .fila-click img{
+    width:84px; height:60px; object-fit:cover;
+    background:var(--chip-fondo); border-radius:8px; border:2px solid var(--dorado-claro);
+    flex-shrink:0;
+  }
+  .fila-info{ flex:1; min-width:0; }
+  .fila-nombre{ font-weight:600; font-size:1rem; margin:0 0 2px; color:var(--texto-principal); }
+  .fila-meta{ font-size:.8rem; color:var(--texto-secundario); margin:0; }
+  .fila-flecha{ color:var(--dorado); font-size:1.4rem; flex-shrink:0; }
+  .btn-estrella{
+    background:none; border:none; font-size:1.4rem; line-height:1;
+    color:var(--borde-suave); padding:8px; flex-shrink:0;
+  }
+  .btn-estrella.activa{ color:var(--dorado); }
+  .btn-estrella:hover{ transform:scale(1.15); }
+
+  .sin-resultados{
+    text-align:center; padding:60px 20px; color:var(--texto-secundario);
+  }
+
+  /* ============================================================
+     5. VISTA FICHA DE COCHE
+     ============================================================ */
+  #vista-ficha{ display:none; }
+  .contenido-ficha{
+    max-width:640px; margin:0 auto; padding:24px 18px 70px;
+  }
+  .btn-volver-listado{
+    background:none; border:none; color:var(--azul); font-weight:600;
+    font-size:.95rem; margin-bottom:16px; display:flex; align-items:center; gap:6px;
+    padding:6px 0;
+  }
+  .tarjeta-ficha{
+    background:var(--superficie-tarjeta);
+    border-radius:var(--radio);
+    box-shadow:var(--sombra);
+    overflow:hidden;
+    border:3px solid var(--dorado);
+  }
+  .ficha-foto-wrap{
+    position:relative;
+    /* Para poner tu propia foto de carretera o circuito de fondo:
+       1) guarda tu foto en la carpeta "imagenes" (ej: imagenes/fondo-circuito.jpg)
+       2) cambia la ruta que hay aquí abajo, en la primera línea de "background"
+       Mientras no pongas ninguna, se ve el fondo de circuito dibujado. */
+    background:
+      linear-gradient(180deg, rgba(20,20,32,0) 55%, var(--superficie-tarjeta) 100%),
+      url("imagenes/fondo-circuito.jpg") center / cover no-repeat,
+      repeating-linear-gradient(90deg, rgba(255,255,255,.85) 0 26px, transparent 26px 52px) center 84% / 52px 6px no-repeat,
+      linear-gradient(180deg, #9fbfd8 0%, #9fbfd8 26%, #6d7278 26%, #45484d 62%, #2b2d30 100%);
+    padding:40px 26px 22px;
+    min-height:270px;
+    display:flex; align-items:center; justify-content:center;
+    text-align:center;
+    overflow:hidden;
+  }
+  .ficha-foto-wrap img{
+    position:relative;
+    max-height:230px; max-width:100%;
+    border-radius:8px;
+    filter:drop-shadow(0 14px 18px rgba(0,0,0,.55));
+  }
+  .btn-estrella-ficha{
+    position:absolute; top:22px; right:16px; z-index:2;
+    background:rgba(27,27,47,.55); border:2px solid var(--dorado-claro);
+    color:var(--dorado-claro); width:42px; height:42px; border-radius:50%;
+    font-size:1.4rem; display:flex; align-items:center; justify-content:center;
+  }
+  .btn-estrella-ficha.activa{ color:var(--dorado); background:rgba(27,27,47,.75); }
+  .ficha-cuerpo{ padding:22px 24px 28px; }
+  .ficha-nombre{
+    font-family:var(--fuente-titular);
+    font-size:1.6rem;
+    color:var(--texto-principal);
+    margin:0 0 12px;
+  }
+  .chips{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
+  .chip{
+    background:var(--chip-fondo);
+    border:1.5px solid var(--borde-suave);
+    border-radius:999px;
+    padding:5px 14px;
+    font-size:.8rem;
+    font-weight:600;
+    color:var(--texto-secundario);
+  }
+  .chip.dorado{ border-color:var(--dorado); background:var(--dorado-claro); color:#5c4813; }
+  .chip.color-chip{ display:inline-flex; align-items:center; gap:6px; }
+  .punto-color{
+    width:12px; height:12px; border-radius:50%;
+    display:inline-block; border:1px solid rgba(0,0,0,.25);
+  }
+  .ficha-resena{
+    font-size:1rem; line-height:1.65; color:var(--texto-principal);
+  }
+  .ficha-resena h3{
+    font-family:var(--fuente-texto); font-size:.85rem; text-transform:uppercase;
+    letter-spacing:1px; color:var(--dorado); margin:0 0 6px;
+  }
+  .nav-ficha{
+    display:flex; justify-content:space-between; gap:10px; margin-top:22px;
+  }
+  .nav-ficha button{
+    flex:1;
+    background:var(--carbon); color:var(--blanco);
+    border:none; border-radius:10px; padding:12px 10px; font-weight:600; font-size:.85rem;
+  }
+  .nav-ficha button:disabled{ opacity:.3; cursor:default; }
+  .nav-ficha button:not(:disabled):hover{ background:var(--rojo); }
+
+</style>
+</head>
+<body>
+
+<!-- ================================================================
+     VISTA 1: HOME
+     ================================================================ -->
+<section id="vista-home">
+  <div class="logo">
+    <span class="l1">HOT WHEELS</span>
+    <span class="l2">COLLECTION</span>
+    <span class="firma">by sanfenu</span>
+  </div>
+
+  <div class="centro-rueda">
+    <button class="btn-enter" id="btn-enter" aria-label="Entrar al listado de la colección">ENTER</button>
+  </div>
+
+  <div class="escenario-3d" aria-hidden="true">
+    <div class="pista-3d" id="pista-3d"></div>
+  </div>
+
+  <p class="home-sub">Pulsa ENTER para ver el listado completo de la colección, buscar por nombre y abrir la ficha de cada coche.</p>
+</section>
+
+<!-- ================================================================
+     VISTA 2: LISTADO
+     ================================================================ -->
+<section id="vista-listado">
+  <header class="cabecera pequena">
+    <div class="logo">
+      <span class="l1">HOT WHEELS</span>
+      <span class="l2">COLLECTION</span>
+      <span class="firma">by sanfenu</span>
+    </div>
+  </header>
+  <div class="bandera-cuadros"></div>
+
+  <div class="barra-listado">
+    <button class="btn-volver-home" id="btn-volver-home">&#8592; Inicio</button>
+    <div class="buscador">
+      <span aria-hidden="true">&#128269;</span>
+      <input type="text" id="buscador-input" placeholder="Buscar coche por nombre..." aria-label="Buscar coche por nombre">
+    </div>
+    <span class="contador" id="contador-coches"></span>
+    <button class="btn-estadisticas" id="btn-estadisticas" type="button">&#128202; Estadísticas</button>
+    <button class="btn-icono-redondo" id="btn-modo-oscuro" type="button" aria-label="Cambiar entre modo claro y oscuro">&#127769;</button>
+  </div>
+
+  <div class="panel-estadisticas" id="panel-estadisticas"></div>
+
+  <div class="fila-filtros">
+    <label>Marca
+      <select id="filtro-marca"><option value="">Todas</option></select>
+    </label>
+    <label>Serie
+      <select id="filtro-serie"><option value="">Todas</option></select>
+    </label>
+    <label>Año
+      <select id="filtro-anio"><option value="">Todos</option></select>
+    </label>
+    <label>Color
+      <select id="filtro-color"><option value="">Todos</option></select>
+    </label>
+    <label class="check-favoritos">
+      <input type="checkbox" id="filtro-favoritos">
+      &#9733; Solo favoritos
+    </label>
+    <label>Por página
+      <select id="selector-por-pagina">
+        <option value="10">10</option>
+        <option value="15" selected>15</option>
+        <option value="20">20</option>
+      </select>
+    </label>
+    <button class="btn-limpiar-filtros" id="btn-limpiar-filtros" type="button">Limpiar filtros</button>
+  </div>
+
+  <div class="abecedario" id="abecedario"></div>
+
+  <div class="contenido-listado" id="contenido-listado"></div>
+  <div class="controles-paginacion" id="controles-paginacion"></div>
+</section>
+
+<button class="btn-arriba" id="btn-arriba" type="button" aria-label="Volver arriba" title="Volver arriba">&#8593;</button>
+
+<!-- ================================================================
+     VISTA 3: FICHA DE COCHE
+     ================================================================ -->
+<section id="vista-ficha">
+  <header class="cabecera pequena">
+    <div class="logo">
+      <span class="l1">HOT WHEELS</span>
+      <span class="l2">COLLECTION</span>
+      <span class="firma">by sanfenu</span>
+    </div>
+  </header>
+  <div class="bandera-cuadros"></div>
+
+  <div class="contenido-ficha">
+    <button class="btn-volver-listado" id="btn-volver-listado">&#8592; Volver al listado</button>
+    <div id="ficha-contenedor"></div>
+    <div class="nav-ficha">
+      <button id="btn-ficha-anterior">&#8592; Anterior</button>
+      <button id="btn-ficha-siguiente">Siguiente &#8594;</button>
+    </div>
+  </div>
+</section>
+
+
+<!-- Sonido que se reproduce al abrir la ficha de cada coche.
+     El archivo motor.mp3 debe estar en la misma carpeta que este html.
+     Si quieres cambiarlo por otro sonido, sustituye el archivo motor.mp3
+     por el tuyo (con ese mismo nombre) o cambia la ruta del atributo src. -->
+<audio id="audio-motor" src="motor.mp3" preload="auto"></audio>
+
+<script>
+/* =========================================================================
+   TUS COCHES VAN AQUÍ
+   =========================================================================
+   Cada coche es un bloque { ... } dentro de la lista "coches".
+   Para añadir uno nuevo, copia un bloque entero (desde la { hasta la },
+   incluida) y pégalo antes del cierre de la lista ( ]; ), luego cambia
+   los datos. No hace falta que los pongas en orden alfabético: la propia
+   página los ordena sola.
+
+   CAMPOS DE CADA COCHE:
+   - id       -> un número que no se repita (usa el siguiente disponible)
+   - nombre   -> nombre del modelo, tal cual quieres que aparezca
+   - marca    -> ej: "Hot Wheels", "Hot Wheels Premium", "Matchbox"...
+   - serie    -> la serie o colección a la que pertenece (puede quedar "").
+                 Si el coche pertenece a más de una serie, sepáralas por
+                 comas dentro de las mismas comillas, ej: "Glow Racers, HW Art Cars"
+   - anio     -> año del modelo (puede quedar "" si no lo sabes)
+   - color    -> color principal del coche, en formato #rrggbb. Se usa
+                 para generar una miniatura mientras no tengas foto propia,
+                 y también como punto de color en la ficha
+   - colorNombre -> el color escrito en palabras (ej: "Rojo", "Azul",
+                 "Negro mate"...). Con este campo se puede buscar y
+                 filtrar por color en el listado. Si el coche tiene
+                 varios colores, sepáralos por comas, ej: "Azul, Blanco"
+                 -> al filtrar por "Azul" o por "Blanco" aparecerá igual,
+                 no hace falta que el color sea el único que lleve
+   - foto     -> dejalo como "" para usar la miniatura automática, o pon
+                 aquí la ruta o el enlace a tu propia foto, por ejemplo:
+                 "imagenes/twin-mill.jpg"  (ver instrucciones más abajo)
+   - resena   -> tu texto libre: de dónde lo sacaste, estado, curiosidades...
+   ========================================================================= */
+
+const coches = [
+  {
+    id: 1,
+    nombre: "Duck N' Roll",
+    marca: "Hot Wheels",
+    serie: "Glow Racers",
+    anio: 2021,
+    color: "#FFFFFF",
+    colorNombre: "Blanco",
+    foto: "imagenes/duck-n-roll.png",
+    resena: "Este ingenioso modelo, originalmente diseñado por Ryu Asada, transforma el icónico patito de goma de baño en un veloz y divertido hot rod de carreras. La versión de la serie Glow Racers destaca por incluir partes especiales que brillan en la oscuridad, logrando un aspecto espectacular en condiciones de baja luz sin perder el clásico estilo rodante de la marca."
+  },
+  {
+    id: 2,
+    nombre: "Amaru GTC",
+    marca: "Hot Wheels",
+    serie: "Safari Mode",
+    anio: 2025,
+    color: "#000000",
+    colorNombre: "Negro, Amarillo",
+    foto: "imagenes/amaru-GTC.png",
+    resena: "Este modelo ficticio está inspirado en el Amaru, una criatura mitológica quechua con forma de serpiente alada. Su diseño representa un superdeportivo eléctrico de alto rendimiento modificado con un agresivo estilo todoterreno para competir en pistas de tierra, ganando gran popularidad gracias a su aparición en la serie animada de Netflix Hot Wheels Let's Race."
+  },
+  {
+    id: 3,
+    nombre: "Madfast",
+    marca: "Hot Wheels",
+    serie: "Drag Racers, Treasure Hunt",
+    anio: 2008,
+    color: "#FF0000",
+    colorNombre: "Rojo",
+    foto: "imagenes/madfast.png",
+    resena: "Es un espectacular e imponente dragster futurista de estilo rail, diseñado con una cabina completamente cerrada y aerodinámica. Destaca visualmente por su gigantesco motor expuesto con sobrealimentador en la parte central y está específicamente modificado para alcanzar velocidades demenciales en las pistas de carreras de Hot Wheels."
+  },
+  {
+    id: 4,
+    nombre: "Buzzerk",
+    marca: "Hot Wheels",
+    serie: "New Models, Code Cars",
+    anio: 2011,
+    color: "#FFA500",
+    colorNombre: "Naranja",
+    foto: "imagenes/buzzerk.png",
+    resena: "Se trata de un amenazante bólido de carreras de estilo apocalíptico y futurista. Su característica más icónica e inconfundible es una enorme hoja de sierra circular de plástico ubicada justo en el centro del chasis, la cual gira mecánicamente cuando las ruedas del coche se ponen en movimiento."
+  },
+  {
+    id: 5,
+    nombre: "Enforcer",
+    marca: "Hot Wheels",
+    serie: "Megaforce, Treasure Hunt",
+    anio: 1982,
+    color: "#00FF00",
+    colorNombre: "Verde",
+    foto: "imagenes/enforcer.png",
+    resena: "Es un buggy fuertemente armado de inspiración militar, creado originalmente como réplica para la película de acción Megaforce. En sus versiones clásicas, destaca por llevar dos ametralladoras a los costados, misiles montados sobre el techo y un cañón láser en la parte trasera, aunque en sus ediciones más recientes se simplificó su armamento exterior."
+  },
+{
+    id: 6,
+    nombre: "Go Kart",
+    marca: "Hot Wheels",
+    serie: "First Editions, Hot Wheels Classics",
+    anio: 1998,
+    color: "#00FF00",
+    colorNombre: "Verde",
+    foto: "imagenes/go-kart.png",
+    resena: "Una genial réplica a escala de un kart de carreras real, famosa por su diminuto tamaño en comparación con otros modelos convencionales de la marca. Inicialmente se diseñó sin piloto fijo, pero años más tarde el molde se modificó de forma permanente para incluir la figura de un piloto de plástico cromado o de color integrado al asiento."
+  },
+{
+    id: 7,
+    nombre: "Minecart",
+    marca: "Hot Wheels",
+    serie: "Minecraft Segments Series",
+    anio: 2016,
+    color: "#808080",
+    colorNombre: "Gris",
+    foto: "imagenes/minecraft.png",
+    resena: "Una ingeniosa recreación fiel y pixelada del clásico vagón de minería del videojuego. Su característica más llamativa es que posee una ranura superior diseñada para albergar de forma perfecta las minifiguras oficiales de Minecraft de Mattel (como Steve, Alex o un Creeper), permitiendo que el personaje conduzca el carrito por las pistas de carreras."
+  },
+{
+    id: 8,
+    nombre: "Nissan Leaf NISMO RC_02",
+    marca: "Nissan",
+    serie: "HW Modified",
+    anio: 2023,
+    color: "#FFFFFF",
+    colorNombre: "Blanco",
+    foto: "imagenes/nissan-leaf-mismo.png",
+    resena: "Réplica a escala 1:64 de un prototipo de carreras japonés totalmente eléctrico desarrollado por la división deportiva NISMO. El modelo real de este bólido cuenta con un chasis monocasco de fibra de carbono, tracción integral y dos motores eléctricos capaces de generar 322 CV. Cuenta con gráficos deportivos en negro, spoiler trasero sobredimensionado y tampografía detallada con los faros delanteros y el logotipo de Nissan."
+  },
+{
+    id: 9,
+    nombre: "Rally speciale",
+    marca: "Hot Wheels",
+    serie: "HW Track Champs",
+    anio: 2023,
+    color: "#FFFFFF",
+    colorNombre: "Blanco",
+    foto: "imagenes/rally-speciale.png",
+    resena: "Un espectacular diseño original que rinde homenaje a los míticos y brutales vehículos de carreras del Grupo B de la época dorada del rally. Su carrocería compacta y aerodinámica recuerda a clásicos legendarios como el Lancia Stratos, luciendo el dorsal número 29 y llamativos gráficos de patrocinadores de competición. Al estar pensado para las pistas de juguete de la marca, cuenta con una base metálica óptima para rodar a toda velocidad."
+  },
+{
+    id: 10,
+    nombre: "Lotus Sport Elise",
+    marca: "Lotus",
+    serie: "Track Aces",
+    anio: 2004,
+    color: "#00FF00",
+    colorNombre: "Verde",
+    foto: "imagenes/lotus-elise.png",
+    resena: "Esta variante destaca por su carrocería limpia en un elegante color verde británico metalizado sin calcomanías decorativas, lo que resalta sus formas aerodinámicas puras. El contraste lo aportan sus cristales ahumados y el alerón trasero de plástico negro, que simula la fibra de carbono del modelo real de circuitos. Cuenta con ruedas de 10 radios (10SP) y unos sutiles detalles pintados en los faros delanteros y traseros que completan un acabado muy realista."
+  },
+{
+    id: 11,
+    nombre: "DAVancenator",
+    marca: "Hot Wheels",
+    serie: "HW Race Day, Spoiler Alert",
+    anio: 2021,
+    color: "#00FF00",
+    colorNombre: "Verde, Azul, Transparente",
+    foto: "imagenes/vancenator.png",
+    resena: "Un espectacular bólido de carreras futurista fuertemente inspirado en el movimiento estético cyberpunk. Su nombre es un juego de palabras con las iniciales de su diseñador, Dwayne Vance, quien creó un chasis extremadamente bajo con un difusor delantero móvil y un alerón trasero gigantesco idénticos a los coches de contrarreloj (Time Attack) reales, destaca por su carrocería Transparent Teal, decoración pixelada roja y el llamativo contraste de sus llantas negras con aro amarillo."
+  },
+{
+    id: 12,
+    nombre: "Tyrrell P34 Six Wheeler",
+    marca: "Tyrrel Racing",
+    serie: "New Models, 2010 HW Premiere",
+    anio: 2010,
+    color: "#FFFFFF",
+    colorNombre: "Blanco",
+    foto: "imagenes/tyrell-p34.png",
+    resena: "El Tyrrell P34 es uno de los monoplazas más extravagantes y radicales de la historia de la Fórmula 1: utilizaba seis ruedas, cuatro de ellas pequeñas en el eje delantero, para reducir la resistencia aerodinámica. El Hot Wheels fue diseñado por Jun Imai. La variante blanca es una decoración ficticia del modelo y lleva detalles azules con el nombre Tyrrell y el número 3, simulando el coche real pilotado por el legendario Jody Scheckter en la temporada de 1976."
+  },
+{
+    id: 13,
+    nombre: "Track Manga",
+    marca: "Hot Wheels",
+    serie: "Spoiler Alert",
+    anio: 2022,
+    color: "#FF0000",
+    colorNombre: "Rojo",
+    foto: "imagenes/track-manga.png",
+    resena: "Una espectacular variante descapotable tipo roadster inspirada en el tuning japonés radical conocido como Bosozoku. Es una evolución del popular modelo Mad Manga. Luce un enorme difusor frontal móvil característico de las carreras de contrarreloj, un imponente alerón trasero negro y dobles tubos de escape que sobresalen directamente del capó. Esta edición destaca por llevar impreso el texto Spoiler Alert y el dorsal número 27 en sus costados junto a gráficos deportivos de estrellas."
+  },
+{
+    id: 14,
+    nombre: "Turto shell",
+    marca: "Hot Wheels",
+    serie: "Street Beasts",
+    anio: 2021,
+    color: "#808080",
+    colorNombre: "Gris",
+    foto: "imagenes/turto-shell-gris.png",
+    resena: "Inspirado en Helix, una tortuga real que nació con una deformidad en las patas traseras a la que le adaptaron ruedas para desplazarse. Hot Wheels creó este singular diseño con cuerpo en forma de tortuga y ruedas integradas como homenaje. Se trata de uno de los vehículos fantásticos con una de las historias reales más emotivas detrás de su lanzamiento. Hay distintas variantes con distinto color de caparazón, este gris."
+  },
+
+{
+    id: 15,
+    nombre: "Turto shell",
+    marca: "Hot Wheels",
+    serie: "Street Beasts",
+    anio: 2021,
+    color: "#804000",
+    colorNombre: "Marrón",
+    foto: "imagenes/turto-shell.png",
+    resena: "Inspirado en Helix, una tortuga real que nació con una deformidad en las patas traseras a la que le adaptaron ruedas para desplazarse. Hot Wheels creó este singular diseño con cuerpo en forma de tortuga y ruedas integradas como homenaje. Se trata de uno de los vehículos fantásticos con una de las historias reales más emotivas detrás de su lanzamiento. Hay distintas variantes con distinto color de caparazón, este marrón."
+  },
+{
+    id: 16,
+    nombre: "Tyrannt",
+    marca: "Hot Wheels",
+    serie: "Street Beasts",
+    anio: 2021,
+    color: "#008000",
+    colorNombre: "Verde",
+    foto: "imagenes/tyrannt.png",
+    resena: "Diseño original de Hot Wheels inspirado en un temible T-Rex, con una enorme cabeza de dinosaurio, cuenta con un motor expuesto en la zona trasera y detalles en la carrocería que simulan escamas y dientes afilados. Su estética mezcla criatura prehistórica y vehículo de competición, convirtiéndolo en una de las piezas más representativas de las colecciones temáticas de criaturas prehistóricas de Hot Wheels. Es un modelo famoso por su bajísimo centro de gravedad."
+  },
+{
+    id: 17,
+    nombre: "24 Ours",
+    marca: "Hot Wheels",
+    serie: "New Models",
+    anio: 2011,
+    color: "#FFFF00",
+    colorNombre: "Amarillo",
+    foto: "imagenes/24-ours.png",
+    resena: "Este coche está inspirado en los prototipos reales de resistencia que compiten en las legendarias 24 Horas de Le Mans, guardando un gran parecido con el icónico Peugeot 908. La versión amarilla destaca por sus líneas aerodinámicas estilizadas, detalles en color naranja (como el alerón trasero) y el número 11 estampado en los laterales. Es ampliamente reconocido en la comunidad por su chasis de metal y cuerpo plástico plano, lo que le otorga un rendimiento de velocidad excepcional y lo convierte en uno de los mejores modelos para rodar en las pistas naranjas de la marca."
+  },
+{
+    id: 18,
+    nombre: "Speedy Pérez",
+    marca: "Hot Wheels",
+    serie: "Legends of speed",
+    anio: 2016,
+    color: "#FFFF00",
+    colorNombre: "Amarillo",
+    foto: "imagenes/speedy-perez.png",
+    resena: "Este monoplaza futurista de carreras fue diseñado en colaboración directa con el piloto mexicano de Fórmula 1, Sergio Checo Pérez. La primera edición de 2017 luce los colores rojo y amarillo fluorescente en honor al casco que usaba el piloto en esa época, e incluye de forma ingeniosa su número 11 integrado visualmente en la forma del alerón trasero. La historia de ficción del auto dice que está equipado con un sistema de propulsión iónica, lo que lo convierte en un bólido capaz de romper todos los récords de velocidad en pista."
+  },
+{
+    id: 19,
+    nombre: "Open Wheel Racer",
+    marca: "Hot Wheels",
+    serie: "McDonald's Happy Meal Series",
+    anio: 2012,
+    color: "#FFFF00",
+    colorNombre: "Amarillo",
+    foto: "imagenes/mcdonalds.png",
+    resena: "Este coche es un bólido futurista inspirado en los monoplazas de la Fórmula 1, diseñado con líneas aerodinámicas muy agresivas y alerones laterales texturizados en color gris. Originalmente incluía en su bolsa un juego de pegatinas decorativas con la palabra TEAM y el logotipo de Hot Wheels para personalizar su carrocería amarilla. Es una pieza promocional sumamente nostálgica y apreciada por los coleccionistas debido a que su chasis es ligeramente más ancho y ligero que los modelos estándar de las tiendas. Fabricado íntegramente de plástico rígido para cumplir las normas de seguridad infantiles de la cadena de comida rápida."
+  },
+{
+    id: 20,
+    nombre: "Teegray",
+    marca: "Hot Wheels",
+    serie: "Nitrobot Attack",
+    anio: 2015,
+    color: "#808080",
+    colorNombre: "Gris",
+    foto: "imagenes/teegray.png",
+    resena: "Esta espectacular variante destaca por una carrocería gris metalizada con un parabrisas translúcido teñido de color amarillo. Sus llamativos gráficos laterales combinan líneas dinámicas negras, grises y amarillas a juego con unas rutilantes llantas amarillas de 10 radios que le dan un aspecto sumamente veloz. Está diseñado con dos tomas de aire superiores que emulan las orejas de un tigre y un fondo completamente plano, optimizado para pasar a máxima velocidad por las pistas sin atascarse."
+  },
+{
+    id: 21,
+    nombre: "Open Road-ster",
+    marca: "Hot Wheels",
+    serie: "Track Stunts 5 pack",
+    anio: 2011,
+    color: "#008000",
+    colorNombre: "Verde",
+    foto: "imagenes/open-road-ster.png",
+    resena: "Este espectacular modelo representa un bólido futurista de estilo convertible conceptual, diseñado con un alerón trasero integrado de gran tamaño y tomas de aire laterales agresivas. Destaca visualmente por combinar una carrocería verde vibrante con tampografías dinámicas en amarillo y naranja, complementado con un motor y chasis internos expuestos con acabado dorado brillante. Su diseño está pensado estructuralmente con un chasis metálico pesado que le proporciona una gran estabilidad al correr por las pistas de bucles y rampas acrobáticas de la marca."
+  },
+{
+    id: 22,
+    nombre: "The Flash",
+    marca: "Hot Wheels",
+    serie: "DC Universe Charecter Cars",
+    anio: 2012,
+    color: "#FF0000",
+    colorNombre: "Rojo",
+    foto: "imagenes/the-flash.png",
+    resena: "Este vehículo conceptual está completamente inspirado en el icónico velocista de DC Comics, imitando su silueta aerodinámica y pintado en un vibrante color rojo brillante. Destaca por llevar alerones amarillos traseros con forma de rayos, ruedas delanteras más pequeñas que las traseras para simular una postura de carrera, y la graciosa inscripción decorativa en los laterales: Caution: Way too Hot! Watch Yourself (Cuidado: ¡Demasiado caliente! Mírate a ti mismo). Es un coche muy codiciado por fanáticos de los cómics y de los bólidos de fantasía de Mattel."
+  },
+{
+    id: 23,
+    nombre: "Bedlam",
+    marca: "Hot Wheels",
+    serie: "Marvel Avengers 5 pack",
+    anio: 2012,
+    color: "#808080",
+    colorNombre: "Gris",
+    foto: "imagenes/bedlam.png",
+    resena: "Esta espectacular variante luce una reluciente carrocería cromada de metal que hace juego con el enorme motor V8 Twin-Turbo de plástico rojo instalado en la cama trasera. En los laterales destaca una detallada ilustración de Thor con su casco clásico, acompañada de la palabra THOR en letras naranjas y el logotipo de los Vengadores en el capó. Para rematar su aspecto agresivo y divino, está equipado con unas llantas deportivas de color rojo metalizado que contrastan a la perfección con el chasis brillante."
+  },
+{
+    id: 24,
+    nombre: "Solar Reflex",
+    marca: "Hot Wheels",
+    serie: "Circuit Champions",
+    anio: 2011,
+    color: "#0000FF",
+    colorNombre: "Azul",
+    foto: "imagenes/solar-reflex.png",
+    resena: "Un deportivo de fantasía de dos plazas cuyo diseño está inspirado en los vehículos de carreras alimentados por energía solar. Destaca por lucir una elegante carrocería plateada metalizada adornada con franjas dinámicas en colores negro y naranja que enmarcan el número 3 de competición en sus laterales y por llevar un gran panel solar moldeado en el techo y por su carrocería ultra aerodinámica de perfil plano pensada para deslizarse en pista. Es una de las piezas futuristas más reconocibles dentro de las líneas de vehículos ecológicos y conceptuales de la marca."
+  },
+{
+    id: 25,
+    nombre: "Brickin Delivery",
+    marca: "Hot Wheels",
+    serie: "Ride Ons, Bricks Rides",
+    anio: 2021,
+    color: "#0000FF",
+    colorNombre: "Azul",
+    foto: "imagenes/lego.png",
+    resena: "Una original furgoneta de reparto que fusiona Hot Wheels con el mundo de los bloques Lego. La variante luce un llamativo chasis amarillo, cabina naranja translúcida y un contenedor azul decorado con gráficos de ladrillos y la inscripción Brickin Delivery. Su enorme módulo trasero desmontable incorpora auténticos puntos de conexión para bloques, totalmente compatibles con bloques de construcción reales, permitiendo modificar el vehículo y construir sobre él."
+  },
+{
+    id: 26,
+    nombre: "Dirty Outlaw",
+    marca: "Hot Wheels",
+    serie: "Racing Track Aces",
+    anio: 2013,
+    color: "#FFA500",
+    colorNombre: "Naranja",
+    foto: "imagenes/dirty_outlaw.png",
+    resena: "El Dirty Outlaw es un casting de carreras basado en los potentes y característicos bólidos de sprint car (carreras de barro en óvalos). Cuenta con un chasis de metal, carrocería de plástico y destaca especialmente por su gran alerón superior desplegado para generar sustentación aerodinámica en curvas rápidas de tierra. Fue introducido para sustituir conceptualmente al clásico casting de sprint car Slideout, convirtiéndose en un modelo muy ágil ideal para pistas."
+  },
+{
+    id: 27,
+    nombre: "Velociracer",
+    marca: "Hot Wheels",
+    serie: "Street Beasts, Dino Riders",
+    anio: 2020,
+    color: "#006400",
+    colorNombre: "Verde oscuro",
+    foto: "imagenes/velociracer.png",
+    resena: "Esta codiciada variante del Veloci-Racer ofrece un aspecto mucho más reptiliano y salvaje que la versión color crema original del mismo año. La combinación del lomo verde oliva con la base naranja resalta las facciones agresivas del velocirraptor. Al estar optimizado con el sello Track Stars de la marca, sus ejes y aerodinámica están calibrados para mantener un gran rendimiento en los bucles y acrobacias de las pistas de carreras estándar."
+  },
+{
+    id: 28,
+    nombre: "Aero POD",
+    marca: "Hot Wheels",
+    serie: "X Raycers",
+    anio: 2021,
+    color: "#FFA500",
+    colorNombre: "Naranja, Transparente",
+    foto: "imagenes/aero-pod.png",
+    resena: "El Aero Pod está inspirado conceptualmente en un camión de apoyo futurista de carga pesada, concebido para ofrecer resistencia y gran velocidad en pista. Su diseño resalta por una cabina aerodinámica extendida destaca por su parte superior plana, diseñada específicamente para poder transportar otro coche encima mientras compite. Al formar parte de la línea X-Raycers, cuenta con una carrocería transparente que permite observar los detalles internos mecánicos simulados en el juguete, convirtiéndose en una variante muy llamativa al no comercializarse de forma individual en blíster sencillo."
+  },
+{
+    id: 29,
+    nombre: "Spine Buster",
+    marca: "Hot Wheels",
+    serie: "Track Stunts 5 pack",
+    anio: 2011,
+    color: "#FF0000",
+    colorNombre: "Rojo",
+    foto: "imagenes/spine-buster.png",
+    resena: ":El Spine Buster es uno de los vehículos de fantasía más icónicos y de culto para la marca, originalmente famoso por ser el coche principal del personaje Mark Wylde (líder de la facción Metal Maniacs) en la legendaria saga de películas animadas Hot Wheels: AcceleRacers de 2005. Su agresivo diseño emula un coche de carreras de resistencia futurista modificado con un gigantesco motor V8 trasero cromado y tomas de aire laterales dinámicas. Esta variante en particular de 2011 simula un vehículo de pruebas o prototipo militarizado, ideal para coleccionistas nostálgicos de la era AcceleRacers."
+  },
+{
+    id: 30,
+    nombre: "Lotus Project M250",
+    marca: "Lotus",
+    serie: "Treasure Hunt, All Stars",
+    anio: 2013,
+    color: "#FF0000",
+    colorNombre: "Rojo",
+    foto: "imagenes/lotus-project.png",
+    resena: "El Lotus Project M250 está basado en el prototipo de superdeportivo presentado por la firma británica Lotus en el Salón del Automóvil de Frankfurt de 1999. Diseñado para ubicarse entre el Elise y el Esprit con un motor V3.0 de 250 CV, el proyecto real fue cancelado antes de llegar a producción. Es una de las últimas variantes en las que se utilizó este molde clásico antes de ser descontinuado, lo que la convierte en una pieza indispensable y muy vistosa para los entusiastas de los automóviles europeos con licencia oficial dentro de Hot Wheels"
+  },
+{
+    id: 31,
+    nombre: "Swamp Buggy",
+    marca: "Hot Wheels",
+    serie: "Off Road, Thrill Racers",
+    anio: 2012,
+    color: "#FFD700",
+    colorNombre: "Dorado",
+    foto: "imagenes/swamp-buggy.png",
+    resena: "El Swamp Buggy es un vehículo conceptual de carreras extremas todoterreno diseñado originalmente en 2004 para una línea de videojuegos cancelada de Mattel (Turbo Driver). Su imponente chasis simula amortiguadores gigantes expuestos y una toma de repostaje rápido ideal para soportar terrenos pantanosos o lodosos. Esta variante de 2012 simula un vehículo de rally que destaca por su carrocería dorada con camuflaje selvático y el dorsal 58, es una pieza muy apreciada por sus ruedas sobredimensionadas ideales para terreno irregular."
+  },
+{
+    id: 32,
+    nombre: "The Jetsons Capsule Car (Supersónicos)",
+    marca: "Hot Wheels",
+    serie: "HW City, Screen Time, Hanna Barbera",
+    anio: 2014,
+    color: "#008000",
+    colorNombre: "Verde",
+    foto: "imagenes/supersonicos.png",
+    resena: "Esta miniatura replica con absoluta fidelidad el coche burbuja volador de la icónica serie animada de 1962, Los Supersónicos (The Jetsons). El diseño destaca por su cúpula transparente de 360 grados y su característica silueta aerodinámica verde que carece de ruedas convencionales; para solucionar esto y permitir que ruede en las pistas, Hot Wheels colocó ingeniosamente un chasis inferior transparente con ruedas ocultas. Es uno de los modelos televisivos más reconocibles de la colección Hot Wheels."
+  },
+{
+    id: 33,
+    nombre: "The Mystery Machine (Scooby Doo)",
+    marca: "Hot Wheels",
+    serie: "HW City, Screen Time, Hanna Barbera",
+    anio: 2012,
+    color: "#40E0D0",
+    colorNombre: "Turquesa",
+    foto: "imagenes/mistery-machine.png",
+    resena: "La Mystery Machine es la icónica furgoneta utilizada por Mystery Inc. con la que la banda de Scooby-Doo, con la que la banda de Scooby-Doo viaja resolviendo misterios, convirtiéndose en un verdadero icono de la cultura pop dentro de Hot Wheels y uno de los vehículos de animación más reconocibles. Hot Wheels estrenó su reproducción en 2012, manteniendo fielmente la carrocería turquesa, los grandes paneles verdes con flores naranjas y el rótulo The Mystery Machine."
+  },
+{
+    id: 34,
+    nombre: "71 Mustang Funny Car",
+    marca: "Ford",
+    serie: "Treasure Hunts",
+    anio: 2011,
+    color: "#008000",
+    colorNombre: "Verde",
+    foto: "imagenes/mustang-funny-car.png",
+    resena: "El 71 Mustang Funny Car es una espectacular réplica a escala de un dragster de aceleración profesional tipo Funny Car, caracterizado por montar una carrocería de fibra de vidrio que imita las líneas del Ford Mustang Mach 1 de 1971. La gran peculiaridad mecánica de esta joya de 2011 es que cuenta con una carrocería abatible articulada hacia arriba que permite exponer por completo el chasis tubular interior y el motor V8 cromado, los neumáticos delanteros delgados y el bloque de motor modificado. Es una pieza histórica muy perseguida, ya que Mattel modificó y selló por completo este molde en el año 2019, eliminando para siempre la función de apertura en las ediciones modernas."
+  },
+{
+    id: 35,
+    nombre: "Lethal Diesel",
+    marca: "Hot Wheels",
+    serie: "HW Rescue",
+    anio: 2022,
+    color: "#000000",
+    colorNombre: "Negro",
+    foto: "imagenes/lethal-diesel.png",
+    resena: "El Lethal Diesel es un vehículo blindado de respuesta rápida con un marcado estilo futurista o industrial. Fue uno de los últimos proyectos completados de forma independiente por el legendario y recordado diseñador de Mattel, Ryu Asada. Esta variante reimagina el concepto original de coche de chatarrería de carreras con el número 89 para convertirlo en un imponente transporte de asalto urbano o unidad SWAT de respuesta inmediata, combinando de manera genial la rudeza del metal con gráficos de estilo policial de vanguardia internacional."
+  },
+{
+    id: 36,
+    nombre: "Bump Around",
+    marca: "Hot Wheels",
+    serie: "Fun Park",
+    anio: 2018,
+    color: "#000000",
+    colorNombre: "Negro",
+    foto: "imagenes/fjx.png",
+    resena: "El Bump Around es un peculiar diseño de Hot Wheels inspirado directamente en los clásicos coches de choque de los parques de atracciones, aunque transformado en un pequeño vehículo de competición y destaca por tener la carrocería en negro brillante, asiento dorado, volante y tubos rojos, y una gomosa base/paragolpes en azul claro. Además de la antena trasera dorada para la toma de corriente simulada, su diseño está pensado para que una figura (como una minifigura de construcción) pueda encajar sentada al volante."
+  },
+{
+    id: 37,
+    nombre: "Hummer H2",
+    marca: "General Motors",
+    serie: "Main Street, HW Rescue",
+    anio: 2011,
+    color: "#FFFFFF",
+    colorNombre: "Blanco",
+    foto: "imagenes/hummer-h2.png",
+    resena: "El Hummer H2 SUT de Hot Wheels reproduce la variante Sport Utility Truck del imponente Hummer H2, adaptada por Mattel con suspensión elevada, enormes ruedas todoterreno, con una pequeña batea de carga trasera expuesta tipo pickup y luce una decoración policial ficticia de El Segundo, California, ciudad donde se encuentra la sede de Mattel."
+  },
+{
+    id: 38,
+    nombre: "La Fasta",
+    marca: "Hot Wheels",
+    serie: "Track Aces, Track Stars",
+    anio: 2014,
+    color: "#000000",
+    colorNombre: "Negro, Blanco",
+    foto: "imagenes/la-fasta.png",
+    resena: "La Fasta es un cupé deportivo de gran rendimiento inspirado en las líneas aerodinámicas de los superdeportivos italianos clásicos (como el De Tomaso Pantera de los años 70) y viste una línea de carreras negra con franjas rojas y blancas, el dorsal número 9, bandera de cuadros en los laterales y el logotipo clásico de Hot Wheels. Diseñado para ofrecer una mínima resistencia al aire, es un modelo histórico muy conocido por su excelente velocidad en pista."
+  },
+{
+    id: 39,
+    nombre: "70 Chevelle SS Wagon",
+    marca: "Chevrolet",
+    serie: "HW Showroom, HW Performance",
+    anio: 2013,
+    color: "#FFFF00",
+    colorNombre: "Amarillo",
+    foto: "imagenes/70-chevels-wagon.png",
+    resena: "El 70 Chevelle SS Wagon es la interpretación Hot Wheels de un Chevrolet Chevelle familiar de 1970 transformado en un potente muscle wagon. Curiosamente, Chevrolet no comercializó oficialmente el familiar Chevelle con el paquete Super Sport, por lo que el modelo representa una preparación personalizada al estilo de las realizadas por aficionados estadounidenses. La variante destaca por su llamativa carrocería en amarillo brillante con gráficos oficiales de la histórica marca de carreras MOONEYES (reconocible por el logo de los dos ojos)."
+  },
+{
+    id: 40,
+    nombre: "Pony Up",
+    marca: "Hot Wheels",
+    serie: "Marvel Avengers, HW City, Track Stars",
+    anio: 2015,
+    color: "#0000FF",
+    colorNombre: "Azul",
+    foto: "imagenes/pony-up.png",
+    resena: "El Pony-Up es un diseño original de Hot Wheels creado por Mark Jones como interpretación moderna de un pony car o muscle car estadounidense, inspirándose en las líneas musculosas y aerodinámicas de la cuarta generación del Ford Mustang. Este modelo pertenece a la colección temática Avengers de 2018 y está dedicado a Capitán América, con una decoración específica del personaje con un tono azul metalizado, parabrisas rojo translúcido y llamativas llantas rojas."
+  },
+
+];
+
+/* =========================================================================
+   FOTOS DEL ESCENARIO GIRATORIO DE LA PORTADA (HOME)
+   =========================================================================
+   Estos son los coches que salen girando uno a uno en la pantalla de
+   inicio, debajo del botón ENTER. Por defecto se muestra un icono
+   genérico, pero puedes poner aquí las rutas de tus propias fotos,
+   igual que en el campo "foto" de cada coche.
+
+   - Deja "" en una posición para que se muestre el icono genérico.
+   - Escribe la ruta de tu foto (ej: "imagenes/twin-mill.jpg") para que
+     sea esa foto la que gire en su lugar.
+   - Puedes usar tantas posiciones como quieras, no hace falta que sean 8.
+   ========================================================================= */
+
+const fotosPortada = [
+  "imagenes/H.png",
+  "imagenes/O.png",
+  "imagenes/T.png",
+  "imagenes/W.png",
+  "imagenes/H.png",
+  "imagenes/E.png",
+  "imagenes/E.png",
+  "imagenes/L.png",
+  "imagenes/S.png"
+];
+
+/* =========================================================================
+   A PARTIR DE AQUÍ ES EL FUNCIONAMIENTO DE LA PÁGINA.
+   No hace falta que toques nada de lo de abajo para añadir coches,
+   solo edita la lista "coches" de arriba.
+   ========================================================================= */
+
+let listaActual = [];
+let cocheFichaActualId = null;
+let paginaActual = 1;
+let cochesPorPagina = 15;
+
+/* ---------- favoritos (se guardan en este navegador, con localStorage) ---------- */
+let favoritos = [];
+function cargarFavoritos(){
+  try{ favoritos = JSON.parse(localStorage.getItem("hw_favoritos")) || []; }
+  catch(err){ favoritos = []; }
+}
+function guardarFavoritos(){
+  try{ localStorage.setItem("hw_favoritos", JSON.stringify(favoritos)); }
+  catch(err){ /* si el navegador bloquea el almacenamiento local, no pasa nada */ }
+}
+function esFavorito(id){ return favoritos.includes(id); }
+function alternarFavorito(id){
+  favoritos = esFavorito(id) ? favoritos.filter(f => f !== id) : [...favoritos, id];
+  guardarFavoritos();
+  listaActual = calcularListaFiltrada();
+  pintarPaginaListado();
+  if(cocheFichaActualId === id){
+    const btn = document.getElementById("btn-favorito-ficha");
+    if(btn){
+      const fav = esFavorito(id);
+      btn.classList.toggle("activa", fav);
+      btn.textContent = fav ? "\u2605" : "\u2606";
+    }
+  }
+}
+
+/* ---------- modo oscuro (se recuerda también entre visitas) ---------- */
+function aplicarModoOscuro(activo){
+  document.body.classList.toggle("modo-oscuro", activo);
+  document.getElementById("btn-modo-oscuro").textContent = activo ? "\u2600\uFE0F" : "\u{1F319}";
+  try{ localStorage.setItem("hw_modo_oscuro", activo ? "1" : "0"); }
+  catch(err){ /* si el navegador bloquea el almacenamiento local, no pasa nada */ }
+}
+function cargarModoOscuro(){
+  let activo = false;
+  try{ activo = localStorage.getItem("hw_modo_oscuro") === "1"; }
+  catch(err){ activo = false; }
+  aplicarModoOscuro(activo);
+}
+
+function generarMiniatura(color){
+  const c = encodeURIComponent(color || "#999999");
+  return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Cpath d='M10 40 Q15 20 35 20 L62 20 Q84 20 90 40 L90 47 Q90 51 86 51 L14 51 Q10 51 10 47 Z' fill='" + c + "' stroke='%231b1b2f' stroke-width='2'/%3E%3Ccircle cx='27' cy='49' r='7' fill='%231b1b2f'/%3E%3Ccircle cx='73' cy='49' r='7' fill='%231b1b2f'/%3E%3Ccircle cx='27' cy='49' r='2.5' fill='%23D4AF37'/%3E%3Ccircle cx='73' cy='49' r='2.5' fill='%23D4AF37'/%3E%3C/svg%3E";
+}
+
+function fotoDe(coche){
+  return (coche.foto && coche.foto.trim() !== "") ? coche.foto : generarMiniatura(coche.color);
+}
+
+function primeraLetra(nombre){
+  const m = nombre.match(/[A-Za-zÀ-ÿ0-9]/);
+  return m ? m[0].toUpperCase() : "#";
+}
+
+function normaliza(txt){
+  return (txt || "").toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+function listaColores(coche){
+  return (coche.colorNombre || "").split(",").map(c => c.trim()).filter(Boolean);
+}
+
+function listaSeries(coche){
+  return (coche.serie || "").split(",").map(s => s.trim()).filter(Boolean);
+}
+
+/* ---------- escenario 3D de la home: los coches salen de uno en uno ---------- */
+function construirEscenario3D(){
+  const iconosBase = ["\u{1F697}", "\u{1F3CE}\uFE0F", "\u{1F699}", "\u{1F695}", "\u{1F696}", "\u{1F693}", "\u{1F69B}", "\u{1F68C}"];
+  const totalPosiciones = Math.max(fotosPortada.length, iconosBase.length);
+  const pista = document.getElementById("pista-3d");
+  const escenario = pista.parentElement;
+  const anchoItem = escenario.clientWidth;
+
+  function crearVisual(indice){
+    const ruta = fotosPortada[indice % fotosPortada.length];
+    if(ruta && ruta.trim() !== ""){
+      const img = document.createElement("img");
+      img.className = "icono-3d foto";
+      img.src = ruta;
+      img.alt = "Coche destacado de la colección";
+      return img;
+    }
+    const span = document.createElement("span");
+    span.className = "icono-3d";
+    span.textContent = iconosBase[indice % iconosBase.length];
+    return span;
+  }
+
+  // se añade al final una copia de la primera posición para que el bucle sea continuo
+  const totalItems = totalPosiciones + 1;
+
+  for(let i = 0; i < totalItems; i++){
+    const indiceReal = (i === totalItems - 1) ? 0 : i;
+    const item = document.createElement("div");
+    item.className = "item-3d";
+    item.style.width = anchoItem + "px";
+    item.appendChild(crearVisual(indiceReal));
+    pista.appendChild(item);
+  }
+
+  const reducirMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let indice = 0;
+
+  function girarActual(){
+    const iconoActual = pista.children[indice].querySelector(".icono-3d");
+    iconoActual.classList.remove("girando");
+    void iconoActual.offsetWidth;
+    iconoActual.classList.add("girando");
+  }
+
+  function avanzar(){
+    if(reducirMovimiento) return;
+    indice++;
+    pista.style.transition = "transform .8s cubic-bezier(.4,0,.2,1)";
+    pista.style.transform = "translateX(-" + (indice * anchoItem) + "px)";
+
+    setTimeout(() => {
+      if(indice === totalItems - 1){
+        // salto invisible del clon final al coche real inicial, sin transición
+        indice = 0;
+        pista.style.transition = "none";
+        pista.style.transform = "translateX(0px)";
+        void pista.offsetWidth;
+      }
+      girarActual();
+      setTimeout(avanzar, 2600);
+    }, 820);
+  }
+
+  girarActual();
+  if(!reducirMovimiento) setTimeout(avanzar, 2600);
+}
+
+/* ---------- navegación entre vistas ---------- */
+function mostrarVista(id){
+  document.getElementById("vista-home").style.display = (id === "home") ? "flex" : "none";
+  document.getElementById("vista-listado").style.display = (id === "listado") ? "block" : "none";
+  document.getElementById("vista-ficha").style.display = (id === "ficha") ? "block" : "none";
+  window.scrollTo(0, 0);
+}
+
+/* ---------- listado ---------- */
+function poblarFiltros(){
+  const contarPor = (obtenerValor) => {
+    const conteo = {};
+    coches.forEach(c => {
+      const valor = obtenerValor(c);
+      if(valor === undefined || valor === null || valor === "") return;
+      const clave = String(valor);
+      conteo[clave] = (conteo[clave] || 0) + 1;
+    });
+    return conteo;
+  };
+
+  const conteoMarca = contarPor(c => c.marca);
+  const conteoAnio = contarPor(c => c.anio);
+  const conteoSerie = {};
+  coches.forEach(c => listaSeries(c).forEach(s => { conteoSerie[s] = (conteoSerie[s] || 0) + 1; }));
+  const conteoColor = {};
+  coches.forEach(c => listaColores(c).forEach(col => { conteoColor[col] = (conteoColor[col] || 0) + 1; }));
+
+  const marcas = Object.keys(conteoMarca).sort();
+  const series = Object.keys(conteoSerie).sort();
+  const anios = Object.keys(conteoAnio).sort((a, b) => a - b);
+  const colores = Object.keys(conteoColor).sort();
+
+  const selMarca = document.getElementById("filtro-marca");
+  const selSerie = document.getElementById("filtro-serie");
+  const selAnio = document.getElementById("filtro-anio");
+  const selColor = document.getElementById("filtro-color");
+
+  marcas.forEach(m => selMarca.insertAdjacentHTML("beforeend", '<option value="' + m + '">' + m + ' (' + conteoMarca[m] + ')</option>'));
+  series.forEach(s => selSerie.insertAdjacentHTML("beforeend", '<option value="' + s + '">' + s + ' (' + conteoSerie[s] + ')</option>'));
+  anios.forEach(a => selAnio.insertAdjacentHTML("beforeend", '<option value="' + a + '">' + a + ' (' + conteoAnio[a] + ')</option>'));
+  colores.forEach(c => selColor.insertAdjacentHTML("beforeend", '<option value="' + c + '">' + c + ' (' + conteoColor[c] + ')</option>'));
+}
+
+function calcularListaFiltrada(){
+  const q = normaliza(document.getElementById("buscador-input").value);
+  const marca = document.getElementById("filtro-marca").value;
+  const serie = document.getElementById("filtro-serie").value;
+  const anio = document.getElementById("filtro-anio").value;
+  const color = document.getElementById("filtro-color").value;
+  const soloFavoritos = document.getElementById("filtro-favoritos").checked;
+
+  return coches
+    .filter(c => normaliza(c.nombre).includes(q) || normaliza(c.marca).includes(q) || normaliza(c.serie).includes(q) || normaliza(c.colorNombre).includes(q))
+    .filter(c => !marca || c.marca === marca)
+    .filter(c => !serie || listaSeries(c).some(s => normaliza(s) === normaliza(serie)))
+    .filter(c => !anio || String(c.anio) === anio)
+    .filter(c => !color || listaColores(c).some(col => normaliza(col) === normaliza(color)))
+    .filter(c => !soloFavoritos || esFavorito(c.id))
+    .sort((a, b) => a.nombre.localeCompare(b.nombre, "es", {sensitivity:"base"}));
+}
+
+/* se llama cuando cambian la búsqueda o los filtros: siempre vuelve a la página 1 */
+function renderizarListado(){
+  listaActual = calcularListaFiltrada();
+  paginaActual = 1;
+  pintarPaginaListado();
+}
+
+function pintarPaginaListado(){
+  const contenedor = document.getElementById("contenido-listado");
+  const contador = document.getElementById("contador-coches");
+  const controles = document.getElementById("controles-paginacion");
+
+  if(listaActual.length === 0){
+    contador.textContent = "0 de " + coches.length + " coches";
+    contenedor.innerHTML = '<p class="sin-resultados">No se ha encontrado ningún coche con esos criterios.</p>';
+    controles.innerHTML = "";
+    document.getElementById("abecedario").innerHTML = "";
+    return;
+  }
+
+  const totalPaginas = Math.max(1, Math.ceil(listaActual.length / cochesPorPagina));
+  if(paginaActual > totalPaginas) paginaActual = totalPaginas;
+  if(paginaActual < 1) paginaActual = 1;
+
+  const inicio = (paginaActual - 1) * cochesPorPagina;
+  const itemsPagina = listaActual.slice(inicio, inicio + cochesPorPagina);
+
+  contador.textContent = listaActual.length + " de " + coches.length + " coches" +
+    (totalPaginas > 1 ? " · página " + paginaActual + " de " + totalPaginas : "");
+
+  let letraAnterior = "";
+  let html = "";
+  itemsPagina.forEach(coche => {
+    const letra = primeraLetra(coche.nombre);
+    if(letra !== letraAnterior){
+      if(letraAnterior !== "") html += "</div>";
+      html += '<div class="grupo-letra" id="letra-' + letra + '">';
+      html += '<div class="letra-titulo">' + letra + '</div>';
+      letraAnterior = letra;
+    }
+    const meta = [coche.marca, coche.serie, coche.anio].filter(Boolean).join(" · ");
+    const fav = esFavorito(coche.id);
+    html += '<div class="fila-coche">' +
+              '<button class="fila-click" onclick="abrirFicha(' + coche.id + ')">' +
+                '<img src="' + fotoDe(coche) + '" alt="Miniatura de ' + coche.nombre + '">' +
+                '<span class="fila-info">' +
+                  '<p class="fila-nombre">' + coche.nombre + '</p>' +
+                  '<p class="fila-meta">' + meta + '</p>' +
+                '</span>' +
+                '<span class="fila-flecha" aria-hidden="true">&#8250;</span>' +
+              '</button>' +
+              '<button class="btn-estrella' + (fav ? ' activa' : '') + '" onclick="alternarFavorito(' + coche.id + ')" aria-label="Marcar ' + coche.nombre + ' como favorito">' + (fav ? "\u2605" : "\u2606") + '</button>' +
+            '</div>';
+  });
+  html += "</div>";
+  contenedor.innerHTML = html;
+
+  construirAbecedario();
+  renderizarControlesPaginacion(totalPaginas);
+}
+
+function construirAbecedario(){
+  const letras = [...new Set(listaActual.map(c => primeraLetra(c.nombre)))].sort();
+  const cont = document.getElementById("abecedario");
+  cont.innerHTML = letras.map(l =>
+    '<button onclick="irALetra(\'' + l + '\')">' + l + '</button>'
+  ).join("");
+}
+
+function irALetra(letra){
+  const indice = listaActual.findIndex(c => primeraLetra(c.nombre) === letra);
+  if(indice === -1) return;
+  paginaActual = Math.floor(indice / cochesPorPagina) + 1;
+  pintarPaginaListado();
+  const el = document.getElementById("letra-" + letra);
+  if(el) el.scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+/* ---------- paginación: números de página, con puntos suspensivos si hay muchas ---------- */
+function paginasAMostrar(actual, total){
+  const vecinas = 1;
+  const paginas = [];
+  for(let p = 1; p <= total; p++){
+    if(p === 1 || p === total || (p >= actual - vecinas && p <= actual + vecinas)){
+      paginas.push(p);
+    } else if(paginas[paginas.length - 1] !== "..."){
+      paginas.push("...");
+    }
+  }
+  return paginas;
+}
+
+function renderizarControlesPaginacion(totalPaginas){
+  const cont = document.getElementById("controles-paginacion");
+  if(totalPaginas <= 1){ cont.innerHTML = ""; return; }
+
+  let html = '<button class="btn-pagina" onclick="cambiarPagina(' + (paginaActual - 1) + ')" ' +
+             (paginaActual === 1 ? "disabled" : "") + ' aria-label="Página anterior">&#8249;</button>';
+
+  paginasAMostrar(paginaActual, totalPaginas).forEach(p => {
+    html += (p === "...")
+      ? '<span class="puntos-pagina">&#8230;</span>'
+      : '<button class="btn-pagina' + (p === paginaActual ? " activa" : "") + '" onclick="cambiarPagina(' + p + ')">' + p + '</button>';
+  });
+
+  html += '<button class="btn-pagina" onclick="cambiarPagina(' + (paginaActual + 1) + ')" ' +
+          (paginaActual === totalPaginas ? "disabled" : "") + ' aria-label="Página siguiente">&#8250;</button>';
+
+  cont.innerHTML = html;
+}
+
+function cambiarPagina(n){
+  paginaActual = n;
+  pintarPaginaListado();
+  document.getElementById("contenido-listado").scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+/* ---------- estadísticas: cuántos coches hay por marca y por año ---------- */
+function renderizarEstadisticas(){
+  const porMarca = {};
+  const porAnio = {};
+  coches.forEach(c => {
+    if(c.marca) porMarca[c.marca] = (porMarca[c.marca] || 0) + 1;
+    if(c.anio) porAnio[c.anio] = (porAnio[c.anio] || 0) + 1;
+  });
+
+  const listaMarcas = Object.entries(porMarca).sort((a, b) => b[1] - a[1])
+    .map(([nombre, total]) => '<span class="chip-stat">' + nombre + '<b>' + total + '</b></span>').join("");
+  const listaAnios = Object.entries(porAnio).sort((a, b) => a[0] - b[0])
+    .map(([nombre, total]) => '<span class="chip-stat">' + nombre + '<b>' + total + '</b></span>').join("");
+
+  document.getElementById("panel-estadisticas").innerHTML =
+    '<div class="stat-grupo"><h4>Coches por marca</h4><div class="stat-lista">' + (listaMarcas || '<span class="chip-stat">Sin datos todavía</span>') + '</div></div>' +
+    '<div class="stat-grupo"><h4>Coches por año</h4><div class="stat-lista">' + (listaAnios || '<span class="chip-stat">Sin datos todavía</span>') + '</div></div>';
+}
+
+/* ---------- sonido de acelerón al abrir una ficha ---------- */
+function sonidoAceleron(){
+  const audio = document.getElementById("audio-motor");
+  if(!audio) return;
+  audio.currentTime = 0;
+  audio.play().catch(() => {
+    /* si el navegador bloquea el audio (por ejemplo al cargar la página
+       sin ninguna interacción previa), no pasa nada: la ficha se abre igual */
+  });
+}
+
+/* ---------- ficha ---------- */
+function abrirFicha(id){
+  const indice = listaActual.findIndex(c => c.id === id);
+  pintarFicha(indice >= 0 ? indice : 0);
+  mostrarVista("ficha");
+}
+
+function pintarFicha(indice){
+  const coche = listaActual[indice];
+  if(!coche) return;
+
+  cocheFichaActualId = coche.id;
+  sonidoAceleron();
+
+  const fav = esFavorito(coche.id);
+  const meta = [];
+  if(coche.marca) meta.push('<span class="chip">' + coche.marca + '</span>');
+  if(coche.serie) meta.push('<span class="chip dorado">' + coche.serie + '</span>');
+  if(coche.anio) meta.push('<span class="chip">' + coche.anio + '</span>');
+  if(coche.colorNombre) meta.push('<span class="chip color-chip"><span class="punto-color" style="background:' + (coche.color || "#999999") + '"></span>' + coche.colorNombre + '</span>');
+
+  document.getElementById("ficha-contenedor").innerHTML =
+    '<div class="tarjeta-ficha">' +
+      '<div class="ficha-foto-wrap">' +
+        '<button class="btn-estrella-ficha' + (fav ? ' activa' : '') + '" id="btn-favorito-ficha" onclick="alternarFavorito(' + coche.id + ')" aria-label="Marcar como favorito">' + (fav ? "\u2605" : "\u2606") + '</button>' +
+        '<img src="' + fotoDe(coche) + '" alt="Foto de ' + coche.nombre + '">' +
+      '</div>' +
+      '<div class="ficha-cuerpo">' +
+        '<h2 class="ficha-nombre">' + coche.nombre + '</h2>' +
+        '<div class="chips">' + meta.join("") + '</div>' +
+        '<div class="ficha-resena"><h3>Sobre esta pieza</h3><p>' + (coche.resena || "Todavía no has añadido una reseña para este coche.") + '</p></div>' +
+      '</div>' +
+    '</div>';
+
+  document.getElementById("btn-ficha-anterior").disabled = (indice === 0);
+  document.getElementById("btn-ficha-siguiente").disabled = (indice === listaActual.length - 1);
+  document.getElementById("btn-ficha-anterior").onclick = () => pintarFicha(indice - 1);
+  document.getElementById("btn-ficha-siguiente").onclick = () => pintarFicha(indice + 1);
+}
+
+/* ---------- eventos ---------- */
+document.getElementById("btn-enter").addEventListener("click", () => {
+  renderizarListado();
+  mostrarVista("listado");
+});
+document.getElementById("btn-volver-home").addEventListener("click", () => mostrarVista("home"));
+document.getElementById("btn-volver-listado").addEventListener("click", () => mostrarVista("listado"));
+document.getElementById("buscador-input").addEventListener("input", () => renderizarListado());
+document.getElementById("filtro-marca").addEventListener("change", () => renderizarListado());
+document.getElementById("filtro-serie").addEventListener("change", () => renderizarListado());
+document.getElementById("filtro-anio").addEventListener("change", () => renderizarListado());
+document.getElementById("filtro-color").addEventListener("change", () => renderizarListado());
+document.getElementById("filtro-favoritos").addEventListener("change", () => renderizarListado());
+document.getElementById("btn-limpiar-filtros").addEventListener("click", () => {
+  document.getElementById("buscador-input").value = "";
+  document.getElementById("filtro-marca").value = "";
+  document.getElementById("filtro-serie").value = "";
+  document.getElementById("filtro-anio").value = "";
+  document.getElementById("filtro-color").value = "";
+  document.getElementById("filtro-favoritos").checked = false;
+  renderizarListado();
+});
+document.getElementById("btn-estadisticas").addEventListener("click", () => {
+  const panel = document.getElementById("panel-estadisticas");
+  const abierto = panel.style.display === "flex";
+  if(!abierto) renderizarEstadisticas();
+  panel.style.display = abierto ? "none" : "flex";
+});
+document.getElementById("btn-modo-oscuro").addEventListener("click", () => {
+  aplicarModoOscuro(!document.body.classList.contains("modo-oscuro"));
+});
+document.getElementById("selector-por-pagina").addEventListener("change", (e) => {
+  cochesPorPagina = parseInt(e.target.value, 10);
+  paginaActual = 1;
+  pintarPaginaListado();
+});
+
+const botonArriba = document.getElementById("btn-arriba");
+window.addEventListener("scroll", () => {
+  botonArriba.classList.toggle("visible", window.scrollY > 400);
+});
+botonArriba.addEventListener("click", () => {
+  window.scrollTo({top: 0, behavior: "smooth"});
+});
+
+cargarFavoritos();
+cargarModoOscuro();
+poblarFiltros();
+construirEscenario3D();
+mostrarVista("home");
+</script>
+
+<iframe
+  title="Chat de la colección"
+  src="https://centeia-sass-gsxz.onrender.com/api/widget/2e64bb2c-365a-48fc-acab-5980b4a7bc0c"
+  frameborder="0"
+  style="position:fixed; bottom:20px; right:20px; width:380px; height:600px; max-width:92vw; max-height:80vh; border:none; border-radius:var(--radio); box-shadow:var(--sombra); z-index:9999;"
+></iframe>
+
+</body>
+</html>
